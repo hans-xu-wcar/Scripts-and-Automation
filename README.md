@@ -4,11 +4,13 @@
 
 ### IAM Commands
 
-**Create and delete Iam users:**
+**Create, delete and reset Iam users:**
 
 ``aws iam create-user --user-name <UserName>``
 
 ``aws iam delete-user --user-name <UserName>``
+
+``aws iam update-login-profile --user-name <UserName> --password <password>``
 
 **Create a delete login profile and password:**
 
