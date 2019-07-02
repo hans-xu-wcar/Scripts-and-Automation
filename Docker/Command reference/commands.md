@@ -1,0 +1,4 @@
+- docker pull <container image> - Pulls image
+- docker run <container image> <command> - run container 
+- time docker run <container image> <command> - print time to execute command
+- docker image - shows all the docker images available on your computer
