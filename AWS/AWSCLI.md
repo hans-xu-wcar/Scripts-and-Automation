@@ -28,6 +28,9 @@
 
 ``aws iam add-user-to-group --group-name <groupName> --user-name <userName>``
 
+## EC2 Commands
+``aws ec2 terminate-instances --instance-id <id>``
+
 
 
 
