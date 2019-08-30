@@ -1,6 +1,7 @@
 import json
 import boto3
-import boto.vpc
+import ipaddress
+#import boto.vpc
 
 ec2 = boto3.resource('ec2', region_name='us-east-1')
 client = boto3.client('ec2')
@@ -20,26 +21,26 @@ for vpc in vpcs:
     #print(json.dumps(response, sort_keys=True, indent=4))
 
 VPCforVPN = vpc.id
-# print(VPCforVPN)
+#print(VPCforVPN)
 
-conn = boto.vpc.connect_to_region('us-east-1')
+#conn = boto3.vpc.connect_to_region('us-east-1')
 
 print("Please enter the customer public IP address")
 
-onPremPublic = raw_input()
+onPremPublic = str(ipaddress.ip_address(input()))
 
 ##Can this be cleaner???###
-if (len(onPremPublic)) >= 7 and (len(onPremPublic)) <= 15:
-    print("Thank you!")
-elif (len(onPremPublic)) >= 16 or (len(onPremPublic)) < 7:
-    print("Invalid Entry")
+# if (len(onPremPublic)) >= 7 and (len(onPremPublic)) <= 15:
+    # print("Thank you!")
+# elif (len(onPremPublic)) >= 16 or (len(onPremPublic)) < 7:
+    # print("Invalid Entry")
 
-#print(len(onPremPublic))
+#print(onPremPublic)
 
-CustomerGateway = conn.create_customer_gateway('ipsec.1',onPremPublic,'65534')
+CustomerGateway = VPCforVPN.create_customer_gateway('ipsec.1',onPremPublic,'65534')
 print(CustomerGateway.id)
 
-VPN = conn.create_vpn_gateway('ipsec.1')
+VPN = VPCforVPN.create_vpn_gateway('ipsec.1')
 print(VPN.id)
 
 #Attach VPN to VPC
@@ -50,5 +51,5 @@ a = type(VirtualGateway)
 print(a)
 print(VirtualGateway)
 
-VpnConnect = conn.create_vpn_connection('ipsec.1',CustomerGateway.id,VirtualGateway.id)
+VpnConnect = VPCforVPN.create_vpn_connection('ipsec.1',CustomerGateway.id,VirtualGateway.id)
 print(VpnConnect)
