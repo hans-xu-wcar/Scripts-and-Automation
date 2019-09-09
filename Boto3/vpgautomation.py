@@ -1,14 +1,12 @@
 import json
 import boto3
-import ipaddress
-#import boto.vpc
 
 ec2 = boto3.resource('ec2', region_name='us-east-1')
 client = boto3.client('ec2')
 
 
 # add tags later
-filters = [{'Name': 'tag:Name', 'Values': ['*']}]
+filters = [{'Name': 'tag:Name', 'Values': ['Phones']}]
 
 vpcs = list(ec2.vpcs.filter(Filters=filters))
 
@@ -19,37 +17,44 @@ for vpc in vpcs:
         ]
     )
     #print(json.dumps(response, sort_keys=True, indent=4))
+    #print(vpc.id)
 
 VPCforVPN = vpc.id
-#print(VPCforVPN)
+print(VPCforVPN)
 
-#conn = boto3.vpc.connect_to_region('us-east-1')
+#conn = boto3.VPCforVPN.connect_to_region('us-east-1')
 
 print("Please enter the customer public IP address")
 
-onPremPublic = str(ipaddress.ip_address(input()))
+ipaddress = input()
+print(ipaddress)
 
-##Can this be cleaner???###
-# if (len(onPremPublic)) >= 7 and (len(onPremPublic)) <= 15:
-    # print("Thank you!")
-# elif (len(onPremPublic)) >= 16 or (len(onPremPublic)) < 7:
-    # print("Invalid Entry")
+if (len(ipaddress)) >= 7 and (len(ipaddress)) <= 15:
+    print("Thank you!")
+else:
+  print("Error")
+  raise ValueError('invalid ip address')
 
-#print(onPremPublic)
+print("completed")
 
-CustomerGateway = VPCforVPN.create_customer_gateway('ipsec.1',onPremPublic,'65534')
-print(CustomerGateway.id)
+#print(len(onPremPublic))
 
-VPN = VPCforVPN.create_vpn_gateway('ipsec.1')
-print(VPN.id)
+#CustomerGateway = conn.create_customer_gateway('ipsec.1',onPremPublic,'65534')
+#print(CustomerGateway.id)
+
+internetgateway = ec2.create_internet_gateway()
+vpc.attach_internet_gateway(InternetGatewayId=internetgateway.id)
+
+#VPN = conn.create_vpn_gateway('ipsec.1')
+#print(VPN.id)
 
 #Attach VPN to VPC
-VirtualGateway = VPN.attach(VPCforVPN)
-print(VirtualGateway.id)
+#VirtualGateway = VPN.attach(VPCforVPN)
+#print(VirtualGateway.id)
 
-a = type(VirtualGateway)
-print(a)
-print(VirtualGateway)
+#a = type(VirtualGateway)
+#print(a)
+#print(VirtualGateway)
 
-VpnConnect = VPCforVPN.create_vpn_connection('ipsec.1',CustomerGateway.id,VirtualGateway.id)
-print(VpnConnect)
+#VpnConnect = conn.create_vpn_connection('ipsec.1',CustomerGateway.id,VirtualGateway.id)
+#print(VpnConnect)
