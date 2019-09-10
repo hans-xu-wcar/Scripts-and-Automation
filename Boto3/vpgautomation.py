@@ -17,44 +17,33 @@ for vpc in vpcs:
         ]
     )
     #print(json.dumps(response, sort_keys=True, indent=4))
-    #print(vpc.id)
-
-VPCforVPN = vpc.id
-print(VPCforVPN)
-
-#conn = boto3.VPCforVPN.connect_to_region('us-east-1')
+    # print(vpc.id)
 
 print("Please enter the customer public IP address")
 
-ipaddress = input()
-print(ipaddress)
+publicipaddress = input()
+print(publicipaddress)
 
-if (len(ipaddress)) >= 7 and (len(ipaddress)) <= 15:
+if (len(publicipaddress)) >= 7 and (len(publicipaddress)) <= 15:
     print("Thank you!")
 else:
-  print("Error")
-  raise ValueError('invalid ip address')
+    print("Error")
+    raise ValueError('invalid ip address')
 
 print("completed")
 
-#print(len(onPremPublic))
+# Create Customer Gateway
 
-#CustomerGateway = conn.create_customer_gateway('ipsec.1',onPremPublic,'65534')
-#print(CustomerGateway.id)
+operation_result1 = ec2.meta.client.create_customer_gateway(
+    Type='ipsec.1', PublicIp=publicipaddress, BgpAsn=65534)
 
-internetgateway = ec2.create_internet_gateway()
-vpc.attach_internet_gateway(InternetGatewayId=internetgateway.id)
+# Create VPN Gateway
 
-#VPN = conn.create_vpn_gateway('ipsec.1')
-#print(VPN.id)
+operation_result2 = ec2.meta.client.create_vpn_gateway(Type='ipsec.1')
+try:
+    gateway_id = operation_result2['VpnGateway']['VpnGatewayId']
+    ec2.meta.client.attach_vpn_gateway(VpcId=vpc.id, VpnGatewayId=gateway_id)
 
-#Attach VPN to VPC
-#VirtualGateway = VPN.attach(VPCforVPN)
-#print(VirtualGateway.id)
-
-#a = type(VirtualGateway)
-#print(a)
-#print(VirtualGateway)
-
-#VpnConnect = conn.create_vpn_connection('ipsec.1',CustomerGateway.id,VirtualGateway.id)
-#print(VpnConnect)
+    ec2.create_tags(Tags=TAGS, Resources=[gateway_id])
+except KeyError:
+    print('Failed to create VPN gateway.')
