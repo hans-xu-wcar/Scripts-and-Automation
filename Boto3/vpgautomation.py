@@ -1,13 +1,12 @@
 import json
 import boto3
-import boto.vpc
 
 ec2 = boto3.resource('ec2', region_name='us-east-1')
 client = boto3.client('ec2')
 
 
 # add tags later
-filters = [{'Name': 'tag:Name', 'Values': ['*']}]
+filters = [{'Name': 'tag:Name', 'Values': ['Phones']}]
 
 vpcs = list(ec2.vpcs.filter(Filters=filters))
 
@@ -18,37 +17,33 @@ for vpc in vpcs:
         ]
     )
     #print(json.dumps(response, sort_keys=True, indent=4))
-
-VPCforVPN = vpc.id
-# print(VPCforVPN)
-
-conn = boto.vpc.connect_to_region('us-east-1')
+    # print(vpc.id)
 
 print("Please enter the customer public IP address")
 
-onPremPublic = raw_input()
+publicipaddress = input()
+print(publicipaddress)
 
-##Can this be cleaner???###
-if (len(onPremPublic)) >= 7 and (len(onPremPublic)) <= 15:
+if (len(publicipaddress)) >= 7 and (len(publicipaddress)) <= 15:
     print("Thank you!")
-elif (len(onPremPublic)) >= 16 or (len(onPremPublic)) < 7:
-    print("Invalid Entry")
+else:
+    print("Error")
+    raise ValueError('invalid ip address')
 
-#print(len(onPremPublic))
+print("completed")
 
-CustomerGateway = conn.create_customer_gateway('ipsec.1',onPremPublic,'65534')
-print(CustomerGateway.id)
+# Create Customer Gateway
 
-VPN = conn.create_vpn_gateway('ipsec.1')
-print(VPN.id)
+operation_result1 = ec2.meta.client.create_customer_gateway(
+    Type='ipsec.1', PublicIp=publicipaddress, BgpAsn=65534)
 
-#Attach VPN to VPC
-VirtualGateway = VPN.attach(VPCforVPN)
-print(VirtualGateway.id)
+# Create VPN Gateway
 
-a = type(VirtualGateway)
-print(a)
-print(VirtualGateway)
+operation_result2 = ec2.meta.client.create_vpn_gateway(Type='ipsec.1')
+try:
+    gateway_id = operation_result2['VpnGateway']['VpnGatewayId']
+    ec2.meta.client.attach_vpn_gateway(VpcId=vpc.id, VpnGatewayId=gateway_id)
 
-VpnConnect = conn.create_vpn_connection('ipsec.1',CustomerGateway.id,VirtualGateway.id)
-print(VpnConnect)
+    ec2.create_tags(Tags=TAGS, Resources=[gateway_id])
+except KeyError:
+    print('Failed to create VPN gateway.')
