@@ -1,4 +1,4 @@
-# VPG Automation With Python 3 and Boto 3
+# VPG Automation With Python 3 and Boto3
 
 ## Requirements 
 - Python 3 with Boto 3 Package
