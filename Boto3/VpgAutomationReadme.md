@@ -8,7 +8,7 @@
 1. Download the script from this repository
 2. Create an IAM user/role that has access to make changes with ec2
 3. Use the `aws config` command to enter the access key ID and secret access key to connect with the acount that you will create the VPG in
-4. Run the command python3 `vpgautomation.py` 
+4. Run the command `python3 vpgautomation.py` 
 5. Follow the prompts to create cgw and vpg for a vpn connection to an on premise site
 
 ### Notes
