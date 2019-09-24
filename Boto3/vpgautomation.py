@@ -44,6 +44,6 @@ try:
     gateway_id = operation_result2['VpnGateway']['VpnGatewayId']
     ec2.meta.client.attach_vpn_gateway(VpcId=vpc.id, VpnGatewayId=gateway_id)
 
-    ec2.create_tags(Tags=TAGS, Resources=[gateway_id])
+    #ec2.create_tags(Tags=TAGS, Resources=[gateway_id])
 except KeyError:
     print('Failed to create VPN gateway.')
