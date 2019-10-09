@@ -10,6 +10,8 @@
 3. Use the `aws config` command to enter the access key ID and secret access key to connect with the acount that you will create the VPG in
 4. Run the command `python3 vpgautomation.py` 
 5. Follow the prompts to create cgw and vpg for a vpn connection to an on premise site
+6. Log into AWS Console and select Site-To-Site VPN and create VPN Connection
+7. Wait for the conection to be available and sownload the config to configure the Meraki
 
 ### Notes
 - There are a few more steps required on the AWS side to do that I will include in this script in order to automate as much as possible.
