@@ -22,11 +22,13 @@
 
 ``aws iam create-access-key --user-name Alice``
 
-**Create IAM Groups and Add User to Groups:**
+**Create IAM Groups, Add User to Groups and List Users in Group:**
 
 ``aws iam create-group --group-name <groupName>``
 
 ``aws iam add-user-to-group --group-name <groupName> --user-name <userName>``
+
+``aws iam get-group --group-name <groupName>``
 
 ## EC2 Commands
 ``aws ec2 terminate-instances --instance-id <id>``
