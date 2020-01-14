@@ -30,6 +30,8 @@
 
 ``aws iam get-group --group-name <groupName>``
 
+To list ONLY UserNames in a group: ``aws iam get-group --group-name <groupName> --query Users[*].UserName --output json``
+
 ## EC2 Commands
 ``aws ec2 terminate-instances --instance-id <id>``
 
