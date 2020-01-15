@@ -35,6 +35,7 @@
 ## EC2 Commands
 - List all EC2 instances ``aws ec2 describe-instances``
 ``aws ec2 terminate-instances --instance-id <id>``
+- List all EC2 instances per Tag - ``aws ec2 describe-tags --query Tags[?ResourceType==`instance`] --output json``
 
 
 
