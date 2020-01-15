@@ -6,33 +6,34 @@
 
 **Create, delete and reset Iam users:**
 
-``aws iam create-user --user-name <UserName>``
+- ``aws iam create-user --user-name <UserName>``
 
-``aws iam delete-user --user-name <UserName>``
+- ``aws iam delete-user --user-name <UserName>``
 
-``aws iam update-login-profile --user-name <UserName> --password <password>``
+- ``aws iam update-login-profile --user-name <UserName> --password <password>``
 
 **Create a delete login profile and password:**
 
-``aws iam create-login-profile --user-name <UserName> --password <password>``
+- ``aws iam create-login-profile --user-name <UserName> --password <password>``
 
-``aws iam delete-login-profile --user-name Alice``
+- ``aws iam delete-login-profile --user-name Alice``
 
 **Create access keys:**
 
-``aws iam create-access-key --user-name Alice``
+- ``aws iam create-access-key --user-name Alice``
 
 **Create IAM Groups, Add User to Groups and List Users in Group:**
 
-``aws iam create-group --group-name <groupName>``
+- ``aws iam create-group --group-name <groupName>``
 
-``aws iam add-user-to-group --group-name <groupName> --user-name <userName>``
+- ``aws iam add-user-to-group --group-name <groupName> --user-name <userName>``
 
-``aws iam get-group --group-name <groupName>``
+- ``aws iam get-group --group-name <groupName>``
 
-To list ONLY UserNames in a group: ``aws iam get-group --group-name <groupName> --query Users[*].UserName --output json``
+- To list ONLY UserNames in a group: ``aws iam get-group --group-name <groupName> --query Users[*].UserName --output json``
 
 ## EC2 Commands
+- List all EC2 instances ``aws ec2 describe-instances``
 ``aws ec2 terminate-instances --instance-id <id>``
 
 
