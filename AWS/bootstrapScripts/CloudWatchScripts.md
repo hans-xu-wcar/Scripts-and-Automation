@@ -1,6 +1,8 @@
 Some Notes for adding custom metrics for CloudWatch monitoring from ACloudGuru
 
-#   Use the commands below for the lab.
-#   /home/ec2-user/aws-scripts-mon/mon-put-instance-data.pl --mem-util --verify --verbose
-#   /home/ec2-user/aws-scripts-mon/mon-put-instance-data.pl --mem-util --mem-used --mem-avail
-#   */1 * * * * root /home/ec2-user/aws-scripts-mon/mon-put-instance-data.pl --mem-util --mem-used --mem-avail
+# Test Custom Metrics   
+`/home/ec2-user/aws-scripts-mon/mon-put-instance-data.pl --mem-util --verify --verbose`
+# Send metrics to CloudWatch   
+`/home/ec2-user/aws-scripts-mon/mon-put-instance-data.pl --mem-util --mem-used --mem-avail`
+# Cron Job for Detailed Monitoring - Write to crontab
+*/1 * * * * root /home/ec2-user/aws-scripts-mon/mon-put-instance-data.pl --mem-util --mem-used --mem-avail
