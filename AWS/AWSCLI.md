@@ -39,5 +39,6 @@
 - Launch EC2 - ``aws ec2 run-instances --image-id <ami> --count <integer> --instance-type <ex. t2.micro>``
 
 
-
+## RDS Commands
+-List all RDS Datbases ``aws rds describe-db-instance --region``
 
