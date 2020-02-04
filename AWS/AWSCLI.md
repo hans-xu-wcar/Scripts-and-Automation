@@ -40,5 +40,5 @@
 
 
 ## RDS Commands
--List all RDS Datbases ``aws rds describe-db-instance --region``
+- List all RDS Datbases ``aws rds describe-db-instance --region``
 
